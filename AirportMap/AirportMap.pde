@@ -21,17 +21,17 @@ void setup() {
   size(1000, 560);  
 
   //load main
-  titleBar = loadImage("title.png");
+  titleBar = loadImage("images/title.png");
   usa = loadShape("map.svg");
   
   //load right-hand panel items
-  directions = loadImage("directions.png");
-  filters = loadImage("filters.png"); 
-  kids = loadImage("kid-zones.png");
-  hotel = loadImage("onsite-hotel.png");
-  pets = loadImage("pet-care.png"); 
-  transport = loadImage("transportation.png");  
-  wifi = loadImage("wifi-stats.png");
+  directions = loadImage("images/directions.png");
+  filters = loadImage("images/filters.png"); 
+  kids = loadImage("images/kid-zones.png");
+  hotel = loadImage("images/onsite-hotel.png");
+  pets = loadImage("images/pet-care.png"); 
+  transport = loadImage("images/transportation.png");  
+  wifi = loadImage("images/wifi-stats.png");
   
   airports = new ArrayList<Airport>();
   enabledAirports = new ArrayList<Airport>();
@@ -74,7 +74,6 @@ void draw() {
   drawCheck(transport_sel, right_align+2, 279, 8, 8); 
     
   //if a filter is selected, draw selected bar chart
-<<<<<<< HEAD
   drawBar(wifi_sel, wifi, barX, barY, 311, 41); //increment used to be 14
   drawBar(hotel_sel, hotel, barX, barY, 352, 41);
   if(hotel_sel)
@@ -89,15 +88,7 @@ void draw() {
   loadPixels(); 
   
   checkBH(); 
-=======
-  drawBar(wifi_sel, wifi, barX, barY, 354, 41);
-  drawBar(hotel_sel, hotel, barX, barY, 395, 41);
-  drawBar(kids_sel, kids, barX, barY, 436, 41);
-  drawBar(pets_sel, pets, barX, barY, 477, 41);
-  drawBar(transport_sel, transport, barX, barY, 518, 0); 
-  barY = 354; 
-  ellipse(596,317,10,10);
->>>>>>> 07ff2f7fcb0e78076c3987f40fac032b60f56bda
+
 }
 
 //---------These methods draw stuff to the screen---------//
