@@ -8,17 +8,17 @@ void setup() {
   size(1000, 600);  
 
   //load main
-  titleBar = loadImage("title.png");
+  titleBar = loadImage("images/title.png");
   usa = loadShape("map.svg");
   
   //load right-hand panel items
-  directions = loadImage("directions.png");
-  filters = loadImage("filters.png"); 
-  kids = loadImage("kid-zones.png");
-  hotel = loadImage("onsite-hotel.png");
-  pets = loadImage("pet-care.png"); 
-  transport = loadImage("transportation.png");  
-  wifi = loadImage("wifi-stats.png");
+  directions = loadImage("images/directions.png");
+  filters = loadImage("images/filters.png"); 
+  kids = loadImage("images/kid-zones.png");
+  hotel = loadImage("images/onsite-hotel.png");
+  pets = loadImage("images/pet-care.png"); 
+  transport = loadImage("images/transportation.png");  
+  wifi = loadImage("images/wifi-stats.png");
   
 }
 
