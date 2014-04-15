@@ -8,17 +8,17 @@ void setup() {
   size(1000, 600);  
 
   //load main
-  titleBar = loadImage("images/title.png");
+  titleBar = loadImage("title.png");
   usa = loadShape("map.svg");
   
   //load right-hand panel items
-  directions = loadImage("images/directions.png");
-  filters = loadImage("images/filters.png"); 
-  kids = loadImage("images/kid-zones.png");
-  hotel = loadImage("images/onsite-hotel.png");
-  pets = loadImage("images/pet-care.png"); 
-  transport = loadImage("images/transportation.png");  
-  wifi = loadImage("images/wifi-stats.png");
+  directions = loadImage("directions.png");
+  filters = loadImage("filters.png"); 
+  kids = loadImage("kid-zones.png");
+  hotel = loadImage("onsite-hotel.png");
+  pets = loadImage("pet-care.png"); 
+  transport = loadImage("transportation.png");  
+  wifi = loadImage("wifi-stats.png");
   
 }
 
@@ -57,6 +57,7 @@ void draw() {
   drawBar(pets_sel, pets, barX, barY, 477, 41);
   drawBar(transport_sel, transport, barX, barY, 518, 0); 
   barY = 354; 
+  ellipse(596,317,10,10);
 }
 
 //---------These methods draw stuff to the screen---------//
