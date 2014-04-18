@@ -158,14 +158,26 @@ void drawAirports2(){
 
 //calculates size of airport to draw
 int getAirportSize(Airport a){
-  int r = Math.round(a.getPas_2012()/45798809.0*24);
+  int maxSize = 26;
+  float maxLargest = 45798809.0;
+  int r = Math.round(a.getPas_2012()/maxLargest*maxSize);
   return r;
 }
 
 //draws a small tooltip at position p
 void drawTooltip(PVector p, String s){
+  float strLength = s.length() * 6.0;
+  PVector pos = new PVector(p.x - strLength/2, p.y - 20);//center it based on the text
+  if(p.x < 80){//offset to keep the entire tooltip in screen
+    pos.x += 50.0;
+  }else if(p.x > 620){
+    pos.x -= 50.0;
+  }
+  
   fill(255);
-  rect(p.x, p.y, 100, 20);
+  rect(pos.x , pos.y, strLength, 20);
+  fill(55);
+  text(""+s, pos.x+5, pos.y+15);
 }
 
 //-------These methods have to do with mouse interaction------//
@@ -238,13 +250,16 @@ void checkBH(){
 }
 
 void mouseUpdate(){
+  cursor(ARROW);
   //check is mouse clicked an airport
   for(Airport a:airports){
     PVector mouse = new PVector(mouseX, mouseY);//mouse position
     PVector aPos = new PVector(a.getX(), a. getY());
     int diameter = getAirportSize(a);
     if(withinCircle(mouse, aPos, diameter/2)){
-      drawTooltip(mouse, ""+a.getName());
+      PVector drawPos = new PVector(mouseX, mouseY);
+      cursor(HAND);//show this is clickable
+      drawTooltip(drawPos, ""+a.getName());
     }
   }
 }
