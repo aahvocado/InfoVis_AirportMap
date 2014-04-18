@@ -87,6 +87,7 @@ void draw() {
   
   loadPixels(); 
   
+  mouseUpdate();
   checkBH(); 
 
 }
@@ -142,20 +143,33 @@ void drawAirports(){
 void drawAirports2(){
   for(int i=0; i<enabledAirports.size(); i++){
     Airport airport = enabledAirports.get(i); 
-    int radius = Math.round(airport.getPas_2012()/45798809.0*24);
+    int radius = getAirportSize(airport);
     fill(204, 102, 0); 
     ellipse(airport.getX(), airport.getY(), radius, radius); 
   }
   
   for(int i=0; i<disabledAirports.size(); i++){
     Airport airport = disabledAirports.get(i); 
-    int radius = Math.round(airport.getPas_2012()/45798809.0*24); 
+    int radius = getAirportSize(airport);
     fill(204, 102, 0, 127);
     ellipse(airport.getX(), airport.getY(), radius, radius);
   }
 }
 
+//calculates size of airport to draw
+int getAirportSize(Airport a){
+  int r = Math.round(a.getPas_2012()/45798809.0*24);
+  return r;
+}
+
+//draws a small tooltip at position p
+void drawTooltip(PVector p, String s){
+  fill(255);
+  rect(p.x, p.y, 100, 20);
+}
+
 //-------These methods have to do with mouse interaction------//
+
 
 //check filter checkbox hover
 void checkFH(){
@@ -223,7 +237,29 @@ void checkBH(){
   }
 }
 
+void mouseUpdate(){
+  //check is mouse clicked an airport
+  for(Airport a:airports){
+    PVector mouse = new PVector(mouseX, mouseY);//mouse position
+    PVector aPos = new PVector(a.getX(), a. getY());
+    int diameter = getAirportSize(a);
+    if(withinCircle(mouse, aPos, diameter/2)){
+      drawTooltip(mouse, ""+a.getName());
+    }
+  }
+}
+
 void mousePressed(){
+  //check is mouse clicked an airport
+  for(Airport a:airports){
+    PVector mouse = new PVector(mouseX, mouseY);//mouse position
+    PVector aPos = new PVector(a.getX(), a. getY());
+    int diameter = getAirportSize(a);
+    if(withinCircle(mouse, aPos, diameter/2)){
+      drawTooltip(mouse, ""+a.getName());
+    }
+  }
+  
   //if mouse within threshold of filters, check filters clicks
   if(mouseX>=right_align && mouseX<=(right_align+186) && mouseY>214 && mouseY<288){
     if(wifi_fh){
@@ -291,6 +327,18 @@ int compareColor(color c){
   }  
   
   return 20; //arbitrary big number
+}
+
+//checks if a point is within the circle of center and radius
+boolean withinCircle(PVector point, PVector center, int radius){
+  PVector a = point;
+  PVector b = center;
+  float distance = sqrt( pow(b.x-a.x, 2) + pow(b.y-a.y, 2));
+  if(distance <= radius){
+    return true;
+  }else{
+    return false;
+  }
 }
 
 void flagBH(int i){
