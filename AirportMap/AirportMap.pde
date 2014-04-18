@@ -14,6 +14,8 @@ color[] colorList = {color(107, 122, 119), color(121,170,154), color(171, 198, 1
 ArrayList<Airport> airports;
 ArrayList<Airport> enabledAirports;
 ArrayList<Airport> disabledAirports;
+Airport selectedAirport = null;
+
 String csv = "airport.csv";
 Hotel hVars; 
 
@@ -84,15 +86,65 @@ void draw() {
   barY = 311; //resets y value for next draw cycle 
   
   drawAirports2();
+  if(selectedAirport != null){
+    drawInfoPanel(selectedAirport);
+  }
   
   loadPixels(); 
-  
   mouseUpdate();
   checkBH(); 
 
 }
 
 //---------These methods draw stuff to the screen---------//
+void drawInfoPanel(Airport a){//draw the info
+  float x1 = 30.0;//left start position
+  float y1 = 460.0;//y top position
+  int s = 20;//size of boxes
+  float d = 10.0 + s;//distance between boxes
+  int r = 5;//radius for corners
+  fill(35);
+  text(a.getName(), x1, y1);
+  
+  print("\n"+a.getWifi());
+  if(a.getWifi() == "f"){//wifi
+    fill(0, 30, 0);
+  }else{//no wifi
+    fill(255);
+  }
+  rect(x1+d*0, y1+10, s, s, r);
+
+  if(a.isHotel() == true){
+    fill(0, 100, 0);
+  }else{//no
+    fill(255);
+  }
+  rect(x1+d*1, y1+10, s, s, r);
+
+  if(a.isKids() == true){
+    fill(100, 30, 0);
+  }else{//no
+    fill(255);
+  }
+  rect(x1+d*2, y1+10, s, s, r);
+  
+
+  if(a.isPet() == true){
+    fill(0, 30, 100);
+  }else{//no
+    fill(255);
+  }
+  rect(x1+d*3, y1+10, s, s, r);
+  
+  
+  if(a.isTrans() == true){
+    fill(100, 30, 100);
+  }else{//no
+    fill(255);
+  }
+  rect(x1+d*4, y1+10, s, s, r);
+}
+
 void drawCB(boolean hover, int x, int y, int w, int h){
   stroke(158, 151, 142, 180); 
  
@@ -265,12 +317,14 @@ void mouseUpdate(){
 }
 
 void mousePressed(){
+  selectedAirport = null;//clear selected airport
   //check is mouse clicked an airport
   for(Airport a:airports){
     PVector mouse = new PVector(mouseX, mouseY);//mouse position
     PVector aPos = new PVector(a.getX(), a. getY());
     int diameter = getAirportSize(a);
     if(withinCircle(mouse, aPos, diameter/2)){
+      selectedAirport = a;
       drawTooltip(mouse, ""+a.getName());
     }
   }
