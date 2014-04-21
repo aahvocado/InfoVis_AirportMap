@@ -223,12 +223,12 @@ int getAirportSize(Airport a){
 //draws a small tooltip at position p
 void drawTooltip(PVector p, String s){
   float strLength = s.length() * 6.0;
-  PVector pos = new PVector(p.x - strLength/2, p.y - 20);//center it based on the text
-  if(p.x < 80){//offset to keep the entire tooltip in screen
+  PVector pos = new PVector(p.x, p.y + 20);//center it based on the text
+  /*if(p.x < 80){//offset to keep the entire tooltip in screen
     pos.x += 50.0;
   }else if(p.x > 620){
     pos.x -= 50.0;
-  }
+  }*/
   
   fill(255);
   rect(pos.x , pos.y, strLength, 20);
