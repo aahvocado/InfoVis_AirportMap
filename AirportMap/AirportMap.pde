@@ -119,7 +119,6 @@ void draw() {
   stroke(204, 102, 0);
 }
 
-<<<<<<< HEAD
 // Debugging method
 void printFlags(){
   print("Flags:\n\n");
@@ -244,8 +243,6 @@ void processFilters(){
   }
 }
 
-=======
->>>>>>> 3490db4d39ca938d82e4c93aa3a1076513e66ff3
 //---------These methods draw stuff to the screen---------//
 void drawInfoPanel(Airport a){//draw the info
   if(displayRank >= 0){
