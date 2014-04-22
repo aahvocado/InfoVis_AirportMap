@@ -1,7 +1,10 @@
 PImage titleBar, filters;
 PShape usa;
 PImage[] infoBoxes;
+int displayRank = -1; 
+
 PImage[] AA, DL, SW, UN, US;
+PImage[] wifiIcons, hotelIcons, kidsIcons, petsIcons, transIcons; 
 
 boolean[] airlineFilters = {false, false, false, false, false}; 
 PVector[] airlineFiltersLocs = {new PVector(793, 118.4), new PVector(826.4, 118.4), new PVector(859.75, 118.4), new PVector(893, 118.4), new PVector(926.4, 118.4)}; 
@@ -29,8 +32,6 @@ color[] colorList = {color(107, 122, 119), color(121,170,154), color(171, 198, 1
                      color(102, 92, 143), color(167, 152, 201), //colorList indices 7-8 pets
                      color(217, 200, 107), color(241, 223, 130)}; //colorList indices 9-10 transportation
 ArrayList<Airport> airports;
-ArrayList<Airport> enabledAirports;
-ArrayList<Airport> disabledAirports;
 Airport selectedAirport = null;
 
 String csv = "airport.csv";
@@ -44,6 +45,30 @@ void setup() {
   
   //load right-hand panel items
   filters = loadImage("images/filters.png"); 
+
+  //load info box images into project
+  infoBoxes = new PImage[25];
+  for (int i=0; i<infoBoxes.length; i++){
+    infoBoxes[i] = loadImage("images/airport/" + (i+1) + ".png"); 
+  } 
+  
+  //load filter icons into project
+  wifiIcons = new PImage[3]; 
+  hotelIcons = new PImage[2]; 
+  kidsIcons = new PImage[2]; 
+  petsIcons = new PImage[2]; 
+  transIcons = new PImage[2]; 
+  
+  for (int i=0; i<wifiIcons.length; i++){
+    wifiIcons[i] = loadImage("images/wifi/" + i + ".png"); 
+    
+    if(i<2){
+      hotelIcons[i] = loadImage("images/hotel/" + i + ".png");
+      kidsIcons[i] = loadImage("images/kids/" + i + ".png"); 
+      petsIcons[i] = loadImage("images/pets/" + i + ".png"); 
+      transIcons[i] = loadImage("images/transport/" + i + ".png"); 
+    }
+  }
 
   //load all airline icons/buttons in an easy to access array
   AA = new PImage[5]; 
@@ -60,15 +85,8 @@ void setup() {
   }
   
   airports = new ArrayList<Airport>();
-  enabledAirports = new ArrayList<Airport>();
-  disabledAirports = new ArrayList<Airport>();
   loadData(csv);
-  
-  for(Airport airport: airports){
-     if(airport.enabled())
-       enabledAirports.add(airport); 
-  }
-}
+ }
 
 void draw() {
   background(250, 247, 237);
@@ -88,8 +106,9 @@ void draw() {
   drawBarFilters(petsFilters, petsLocs);
   drawBarFilters(transFilters, transLocs); 
 
-  strokeWeight(1); 
-  drawAirports2();
+  strokeWeight(1);
+  processFilters(); 
+  drawAirports();
   if(selectedAirport != null){
     drawInfoPanel(selectedAirport);
   }
@@ -98,57 +117,217 @@ void draw() {
   mouseUpdate();
   
   stroke(204, 102, 0);
- // checkBH(); 
+}
 
+// Debugging method
+void printFlags(){
+  print("Flags:\n\n");
+  print("Airlines:\n");
+  print(arrayToString(airlineFilters));
+  print("Wifi:\n");
+  print(arrayToString(wifiFilters));
+  print("Hotels:\n");
+  print(arrayToString(hotelFilters));
+  print("Kids:\n");
+  print(arrayToString(kidsFilters));
+  print("Pets:\n");
+  print(arrayToString(petsFilters));
+  print("Transport:\n");
+  print(arrayToString(transFilters));
+  print("\n\n");
+  
+}
+
+// Debugging method
+String arrayToString(boolean[] array){
+  String text = "";
+  for(boolean item:array){ 
+    text = text + item + ", ";
+  } 
+  return text+"\n";
+}
+
+void processFilters(){
+  for(Airport airport:airports){
+    boolean included = true;
+    if(airlineFilters[0] == airlineFilters[1] && airlineFilters[1] == airlineFilters[2] && airlineFilters[2] == airlineFilters[3] && airlineFilters[3] == airlineFilters[4]){
+
+    }
+    else{
+      if(airlineFilters[0] == true && airport.getAa() == Airport.Presence.NO){
+        included = false;
+      }
+      if(airlineFilters[1] == true && airport.getDl() == Airport.Presence.NO){
+        included = false;
+      }
+      if(airlineFilters[2] == true && airport.getWn() == Airport.Presence.NO){
+        included = false;
+      }
+      if(airlineFilters[3] == true && airport.getUa() == Airport.Presence.NO){
+        included = false;
+      }
+      if(airlineFilters[4] == true && airport.getUs() == Airport.Presence.NO){
+        included = false;
+      }
+    }
+    
+    if(wifiFilters[0] == wifiFilters[1] && wifiFilters[1] == wifiFilters[2]){
+      
+    }
+    else{
+      boolean matches = false;
+      if(wifiFilters[0] == true && airport.getWifi().equals("f")){
+        matches = true;
+      }
+      if(wifiFilters[2] == true && airport.getWifi().equals("r")){
+        matches = true;
+      }
+      if(wifiFilters[1] == true && airport.getWifi().contains("/")){
+        matches = true;
+      }
+      
+      included = included && matches;
+    }
+    
+    if(hotelFilters[0] == hotelFilters[1]){
+      
+    }
+    else{
+      if(hotelFilters[0] == true && !airport.isHotel()){
+        included = false;
+      }
+      if(hotelFilters[1] == true && airport.isHotel()){
+        included = false;
+      }
+    }
+    
+    if(kidsFilters[0] == kidsFilters[1]){
+      
+    }
+    else{
+      if(kidsFilters[0] == true && !airport.isKids()){
+        included = false;
+      }
+      if(kidsFilters[1] == true && airport.isKids()){
+        included = false;
+      }
+      
+    }
+    
+    if(petsFilters[0] == petsFilters[1]){
+      
+    }
+    else{
+      if(petsFilters[0] == true && !airport.isPet()){
+        included = false;
+      }
+      if(petsFilters[1] == true && airport.isPet()){
+        included = false;
+      }
+      
+    }
+    if(transFilters[0] == transFilters[1]){
+      
+    }
+    else{
+      if(transFilters[0] == true && !airport.isTrans()){
+        included = false;
+      }
+      if(transFilters[1] == true && airport.isTrans()){
+        included = false;
+      }
+      
+    }
+    
+    airport.setEnable(included);
+  }
 }
 
 //---------These methods draw stuff to the screen---------//
 void drawInfoPanel(Airport a){//draw the info
-  float x1 = 30.0;//left start position
-  float y1 = 460.0;//y top position
-  int s = 20;//size of boxes
-  float d = 10.0 + s;//distance between boxes
-  int r = 5;//radius for corners
-  fill(35);
-  text(a.getName(), x1, y1);
-  
-  print("\n"+a.getWifi());
-  if(a.getWifi() == "f"){//wifi
-    fill(0, 30, 0);
-  }else{//no wifi
-    fill(255);
+  if(displayRank >= 0){
+    image(infoBoxes[displayRank-1], right_align, 381.5, 180, 130);  
+   
+    //draw icons in row one
+    String aa = "" + a.getAa(); 
+    String dl = "" + a.getDl(); 
+    String sw = "" + a.getWn(); 
+    String un = "" + a.getUa(); 
+    String us = "" + a.getUs(); 
+    
+    if(aa.equals("NO")){
+      image(AA[2], 776.998, 438.496, 30.5, 30.5); 
+    } else if(aa.equals("YES")){
+      image(AA[3], 776.998, 438.496, 30.5, 30.5); 
+    } else{
+      image(AA[4], 776.998, 438.496, 30.5, 30.5); 
+    }
+    
+    if(dl.equals("NO")){
+      image(DL[2], 809.998, 438.496, 30.5, 30.5); 
+    } else if(dl.equals("YES")){
+      image(DL[3], 809.998, 438.496, 30.5, 30.5); 
+    } else{
+      image(DL[4], 809.998, 438.496, 30.5, 30.5); 
+    }
+    
+    if(sw.equals("NO")){
+      image(SW[2], 842.998, 438.496, 30.5, 30.5); 
+    } else if(sw.equals("YES")){
+      image(SW[3], 842.998, 438.496, 30.5, 30.5); 
+    } else{
+      image(SW[4], 842.998, 438.496, 30.5, 30.5); 
+    }
+    
+    if(un.equals("NO")){
+      image(UN[2], 876.667, 438.496, 30.5, 30.5); 
+    } else if(un.equals("YES")){
+      image(UN[3], 876.667, 438.496, 30.5, 30.5); 
+    } else{
+      image(UN[4], 876.667, 438.496, 30.5, 30.5); 
+    }
+    
+    if(us.equals("NO")){
+      image(US[2], 910.498, 438.496, 30.5, 30.5); 
+    } else if(us.equals("YES")){
+      image(US[3], 910.498, 438.496, 30.5, 30.5); 
+    } else{
+      image(US[4], 910.498, 438.496, 30.5, 30.5); 
+    }
+    
+    //draw icons in row two
+    if(a.getWifi().equals("f")){
+       image(wifiIcons[0], 779.334, 474.333, 25.667, 25.667); 
+    } else if(a.getWifi().equals("p")){
+       image(wifiIcons[1], 779.334, 474.333, 25.667, 25.667); 
+    } else{
+       image(wifiIcons[2], 779.334, 474.333, 25.667, 25.667); 
+    }
+    
+    if(a.isHotel()){
+       image(hotelIcons[0], 812.751, 474.333, 25.667, 25.667);  
+    } else {
+      image(hotelIcons[1], 812.751, 474.333, 25.667, 25.667);  
+    }
+    
+    if(a.isKids()){
+       image(kidsIcons[0], 846.167, 474.333, 25.667, 25.667);  
+    } else{
+       image(kidsIcons[1], 846.167, 474.333, 25.667, 25.667);  
+    }
+    
+    if(a.isPet()){
+       image(petsIcons[0], 879.584, 474.333, 25.667, 25.667);  
+    } else{
+       image(petsIcons[1], 879.584, 474.333, 25.667, 25.667);  
+    }
+    
+    if(a.isTrans()){
+       image(transIcons[0], 913.001, 474.333, 25.667, 25.667);  
+    } else{
+       image(transIcons[1], 913.001, 474.333, 25.667, 25.667);  
+    }
   }
-  rect(x1+d*0, y1+10, s, s, r);
-
-  if(a.isHotel() == true){
-    fill(0, 100, 0);
-  }else{//no
-    fill(255);
-  }
-  rect(x1+d*1, y1+10, s, s, r);
-
-  if(a.isKids() == true){
-    fill(100, 30, 0);
-  }else{//no
-    fill(255);
-  }
-  rect(x1+d*2, y1+10, s, s, r);
-  
-
-  if(a.isPet() == true){
-    fill(0, 30, 100);
-  }else{//no
-    fill(255);
-  }
-  rect(x1+d*3, y1+10, s, s, r);
-  
-  
-  if(a.isTrans() == true){
-    fill(100, 30, 100);
-  }else{//no
-    fill(255);
-  }
-  rect(x1+d*4, y1+10, s, s, r);
 }
 
 void drawAirlineButtons(boolean[] arr){
@@ -184,33 +363,38 @@ void drawAirlineButtons(boolean[] arr){
 }
 
 void drawAirports(){
-  fill(204, 102, 0);
   for(int i = 0; i<airports.size();i++){
     Airport airport = airports.get(i);
-    int radius = Math.round(airport.getPas_2012()/45798809.0*24);
+    int radius = getAirportSize(airport);
+//    int radius = Math.round(airport.getPas_2012()/45798809.0*24);
 //    text(airport.getName(),airport.getX()-5,airport.getY()-5);
-
-    //if enabled, fill(204, 102, 0); else grey out
-    
-    ellipse(airport.getX(), airport.getY(),radius, radius);
+//    if enabled, fill(204, 102, 0); else grey out
+    if(airport.enabled()){
+      fill(204, 102, 0);
+      ellipse(airport.getX(), airport.getY(),radius, radius);
+    }
+    else{
+      fill(10, 10, 10);
+      ellipse(airport.getX(), airport.getY(),radius, radius);
+    }
   } 
 }
 
-void drawAirports2(){
-  for(int i=0; i<enabledAirports.size(); i++){
-    Airport airport = enabledAirports.get(i); 
-    int radius = getAirportSize(airport);
-    fill(204, 102, 0); 
-    ellipse(airport.getX(), airport.getY(), radius, radius); 
-  }
+// void drawAirports2(){
+  // for(int i=0; i<enabledAirports.size(); i++){
+    // Airport airport = enabledAirports.get(i); 
+    // int radius = getAirportSize(airport);
+    // fill(204, 102, 0); 
+    // ellipse(airport.getX(), airport.getY(), radius, radius); 
+  // }
   
-  for(int i=0; i<disabledAirports.size(); i++){
-    Airport airport = disabledAirports.get(i); 
-    int radius = getAirportSize(airport);
-    fill(204, 102, 0, 127);
-    ellipse(airport.getX(), airport.getY(), radius, radius);
-  }
-}
+  // for(int i=0; i<disabledAirports.size(); i++){
+    // Airport airport = disabledAirports.get(i); 
+    // int radius = getAirportSize(airport);
+    // fill(204, 102, 0, 127);
+    // ellipse(airport.getX(), airport.getY(), radius, radius);
+  // }
+// }
 
 //calculates size of airport to draw
 int getAirportSize(Airport a){
@@ -432,8 +616,17 @@ void mousePressed(){
         selectedAirport = a;
         drawTooltip(mouse, ""+a.getName());
         
+        //if new airport is clicked, change infobox to display; if the airport is already selected, 
+        //deselect the airport and unshow the info box
+        if(displayRank != a.getRank()){
+           displayRank = a.getRank();  
+        } else{
+           displayRank = -1; 
+        }
+        
         break;
       }
+
     }
   } else if (mouseX>770 && mouseX<950){
       if(mouseY>102 && mouseY<132){
@@ -535,6 +728,7 @@ void mousePressed(){
            }  
        }
   }
+    printFlags();
 }
 
 //------------These methods have to do with important things not pertaining to drawing or mouse interaction---------//

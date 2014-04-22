@@ -1,10 +1,10 @@
 public class Airport {
    private String name,code,city,state,longi,lat,wifi;
    private boolean hotel,kids,pet,trans;
-   private enum Presence {YES, HUB, NO};
+   public enum Presence {YES, HUB, NO};
    private Presence aa, dl, wn, ua, us;
    private int rank,pas_2012,pas_2011,pas_2010,pas_2009,pas_2008,x,y;
-   private boolean enabled = true; //by default, all airports are enabled initially.
+   private boolean enabled; //by default, all airports are enabled initially.
   
   public  Airport(String dataString){
       String[] data = dataString.split(",");
@@ -32,7 +32,7 @@ public class Airport {
       trans = Boolean.parseBoolean(data[21]);
       x = Integer.parseInt(data[22]);
       y = Integer.parseInt(data[23]);
-      
+      enabled = true;
      }
      
   private Presence parsePresence(String presenceData){
