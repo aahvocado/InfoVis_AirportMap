@@ -1,4 +1,4 @@
-PImage titleBar, filters;
+PImage titleBar, filters, intro;
 PShape usa;
 PImage[] infoBoxes;
 int displayRank = -1; 
@@ -42,6 +42,7 @@ void setup() {
   //load main
   titleBar = loadImage("images/title.png");
   usa = loadShape("map.svg");
+  intro = loadImage("images/intro.png"); 
   
   //load right-hand panel items
   filters = loadImage("images/filters.png"); 
@@ -94,6 +95,7 @@ void draw() {
   //draw main
   image(titleBar, 0, 0);
   shape(usa, 26, 96, 717, 424);
+  image(intro, 0, 511); 
   
   //draw filter panel
   image(filters, right_align, 50.5, 190, 310); 
