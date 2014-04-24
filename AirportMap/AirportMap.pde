@@ -10,19 +10,19 @@ boolean[] airlineFilters = {false, false, false, false, false};
 PVector[] airlineFiltersLocs = {new PVector(800.667, 115.167), new PVector(835, 115.167), new PVector(869.333, 115.167), new PVector(903.667, 115.167), new PVector(938, 115.167)}; 
 
 boolean[] wifiFilters = {false, false, false}; 
-float[][] wifiLocs = {{784, 154.84, 115.6, 18.0}, {899.601, 154.84, 33.5, 18.0}, {933.602, 154.84, 20.398, 18.0}};
+float[][] wifiLocs = {{784, 154.84, 115.6, 18.0}, {899, 154.84, 33.5, 18.0}, {932, 154.84, 20.398, 18.0}};
 
 boolean[] hotelFilters = {false, false}; 
-float[][] hotelLocs = {{784.0, 197.439, 68, 18.0}, {852.0, 197.439, 102.0, 18.0}}; 
+float[][] hotelLocs = {{784.0, 197.439, 68, 18.0}, {851.5, 197.439, 102.0, 18.0}}; 
 
 boolean[] kidsFilters = {false, false}; 
-float[][] kidsLocs = {{784.0, 241, 95, 18.0}, {879.199, 241, 74.801, 16.512, 18.0}}; 
+float[][] kidsLocs = {{784.0, 241, 95, 18.3}, {878.5, 241, 74.801, 16.512, 19}}; 
 
 boolean[] petsFilters = {false, false}; 
-float[][] petsLocs = {{784.0, 284, 156, 18.0}, {940.401, 284, 13.599, 18.0}}; 
+float[][] petsLocs = {{784.0, 283, 156, 18.0}, {939, 283, 13.599, 18.0}}; 
 
 boolean[] transFilters = {false, false}; 
-float[][] transLocs = {{784.0, 327, 95, 18.0}, {879.199, 327, 74.801, 18.0}}; 
+float[][] transLocs = {{784.0, 326, 95, 18.0}, {878.5, 326, 74.801, 18.0}}; 
 
 int right_align = 775; //pixel placement to align the right side panel
 int numOfAirports = 25;
@@ -152,8 +152,11 @@ String arrayToString(boolean[] array){
 void processFilters(){
   for(Airport airport:airports){
     boolean included = true;
-    if(airlineFilters[0] == airlineFilters[1] && airlineFilters[1] == airlineFilters[2] && airlineFilters[2] == airlineFilters[3] && airlineFilters[3] == airlineFilters[4]){
+    //if(airlineFilters[0] == airlineFilters[1] && airlineFilters[1] == airlineFilters[2] && airlineFilters[2] == airlineFilters[3] && airlineFilters[3] == airlineFilters[4]){
 
+    //}
+    if(!airlineFilters[0] && !airlineFilters[1] && !airlineFilters[2] && !airlineFilters[3] && !airlineFilters[4]){
+        //if aa = dl and dl = sw and 
     }
     else{
       if(airlineFilters[0] == true && airport.getAa() == Airport.Presence.NO){
@@ -274,7 +277,7 @@ void drawInfoPanel(Airport a){//draw the info
     }
     
     if(sw.equals("NO")){
-      image(SW[2], 855.918, 4564.155, 30, 30); 
+      image(SW[2], 855.918, 454.155, 30, 30); 
     } else if(sw.equals("YES")){
       image(SW[3], 855.918, 454.155, 30, 30); 
     } else{
@@ -378,32 +381,19 @@ void drawAirports(){
 //    int radius = Math.round(airport.getPas_2012()/45798809.0*24);
 //    text(airport.getName(),airport.getX()-5,airport.getY()-5);
 //    if enabled, fill(204, 102, 0); else grey out
+
     if(airport.enabled()){
-      fill(204, 102, 0);
+      stroke(20, 20, 20); 
+      fill(164, 135, 96);
       ellipse(airport.getX(), airport.getY(),radius, radius);
     }
     else{
-      fill(10, 10, 10);
+      stroke(150, 150, 150); 
+      fill(204, 204, 204, 200);
       ellipse(airport.getX(), airport.getY(),radius, radius);
     }
   } 
 }
-
-// void drawAirports2(){
-  // for(int i=0; i<enabledAirports.size(); i++){
-    // Airport airport = enabledAirports.get(i); 
-    // int radius = getAirportSize(airport);
-    // fill(204, 102, 0); 
-    // ellipse(airport.getX(), airport.getY(), radius, radius); 
-  // }
-  
-  // for(int i=0; i<disabledAirports.size(); i++){
-    // Airport airport = disabledAirports.get(i); 
-    // int radius = getAirportSize(airport);
-    // fill(204, 102, 0, 127);
-    // ellipse(airport.getX(), airport.getY(), radius, radius);
-  // }
-// }
 
 //calculates size of airport to draw
 int getAirportSize(Airport a){
@@ -430,7 +420,7 @@ void drawTooltip(PVector p, String s){
 }
 
 void drawBarFilters(boolean[] bools, float[][] locs){ 
-  stroke(0, 0, 0, 120); 
+  stroke(0, 0, 0, 110); 
   strokeWeight(3); 
   noFill();
 
@@ -454,6 +444,12 @@ void mouseUpdate(){
       if(withinCircle(mouse, aPos, diameter/2)){
         PVector drawPos = new PVector(mouseX, mouseY);
         cursor(HAND);//show this is clickable
+        
+        noStroke();
+        fill(255,255,255,100); 
+        ellipseMode(CENTER); 
+        ellipse(aPos.x, aPos.y, diameter, diameter); 
+        
         drawTooltip(drawPos, ""+a.getName());
         break;
       }
@@ -492,7 +488,7 @@ void mouseUpdate(){
                fill(255,255,255,100); 
                rect(x, y, w, h); 
                    
-               String[] msgs = {"Free wifi", "Paid Wifi", "Free Wifi with Restrictions"}; 
+               String[] msgs = {"Free wifi: 68%", "Paid Wifi, 20%", "Free Limited Access Wifi, 12%"}; 
                PVector drawPos = new PVector(mouseX, mouseY); 
                    
                drawTooltip(drawPos, msgs[i]); 
@@ -513,7 +509,7 @@ void mouseUpdate(){
               fill(255,255,255,100); 
               rect(x, y, w, h); 
                    
-              String[] msgs = {"On-site Hotel Available", "On-site Hotel Unavailable"}; 
+              String[] msgs = {"On-site Hotel Available, 40%", "No On-site Hotel, 60%"}; 
               PVector drawPos = new PVector(mouseX, mouseY); 
                    
               drawTooltip(drawPos, msgs[i]); 
@@ -534,7 +530,7 @@ void mouseUpdate(){
               fill(255,255,255,100); 
               rect(x, y, w, h); 
                    
-              String[] msgs = {"Play areas available", "No Play areas"}; 
+              String[] msgs = {"Play areas available, 56%", "No Play areas, 44%"}; 
               PVector drawPos = new PVector(mouseX, mouseY); 
                    
               drawTooltip(drawPos, msgs[i]); 
@@ -555,7 +551,7 @@ void mouseUpdate(){
               fill(255,255,255,100); 
               rect(x, y, w, h); 
                    
-              String[] msgs = {"Pet areas available", "No pet friendly zones"}; 
+              String[] msgs = {"Pet areas available, 92%", "No pet friendly zones, 8%"}; 
               PVector drawPos = new PVector(mouseX, mouseY); 
                    
               drawTooltip(drawPos, msgs[i]); 
@@ -576,7 +572,7 @@ void mouseUpdate(){
               fill(255,255,255,100); 
               rect(x, y, w, h); 
                    
-              String[] msgs = {"Transportation to city center available", "Transportation to city center is not available."}; 
+              String[] msgs = {"Public transport to city center available, 56%", "No Public Transport to City Center, 44%"}; 
               PVector drawPos = new PVector(mouseX, mouseY); 
                    
               drawTooltip(drawPos, msgs[i]); 
