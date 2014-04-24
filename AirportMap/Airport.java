@@ -5,6 +5,7 @@ public class Airport {
    private Presence aa, dl, wn, ua, us;
    private int rank,pas_2012,pas_2011,pas_2010,pas_2009,pas_2008,x,y;
    private boolean enabled; //by default, all airports are enabled initially.
+   private boolean isSelected;
   
   public  Airport(String dataString){
       String[] data = dataString.split(",");
@@ -33,6 +34,7 @@ public class Airport {
       x = Integer.parseInt(data[22]);
       y = Integer.parseInt(data[23]);
       enabled = true;
+      isSelected = false;
      }
      
   private Presence parsePresence(String presenceData){

@@ -403,22 +403,29 @@ void drawAirlineButtons(boolean[] arr){
   }
 }
 
+//draws all the airport dots
 void drawAirports(){
+  //if(selectedAirport != null) print("selected: "+selectedAirport.getName());
   for(int i = 0; i<airports.size();i++){
     Airport airport = airports.get(i);
     int radius = getAirportSize(airport);
 //    int radius = Math.round(airport.getPas_2012()/45798809.0*24);
 //    text(airport.getName(),airport.getX()-5,airport.getY()-5);
 //    if enabled, fill(204, 102, 0); else grey out
-
-    if(airport.enabled()){
+    if(airport != selectedAirport){
+      if(airport.enabled()){
+        stroke(20, 20, 20); 
+        fill(164, 135, 96);
+        ellipse(airport.getX(), airport.getY(),radius, radius);
+      }
+      else{
+        stroke(150, 150, 150); 
+        fill(204, 204, 204, 200);
+        ellipse(airport.getX(), airport.getY(),radius, radius);
+      }
+    }else{//checks if this is the selected airport and makes it differentiated
       stroke(20, 20, 20); 
-      fill(164, 135, 96);
-      ellipse(airport.getX(), airport.getY(),radius, radius);
-    }
-    else{
-      stroke(150, 150, 150); 
-      fill(204, 204, 204, 200);
+      fill(55, 204, 55, 200);
       ellipse(airport.getX(), airport.getY(),radius, radius);
     }
   } 
@@ -436,11 +443,6 @@ int getAirportSize(Airport a){
 void drawTooltip(PVector p, String s){
   float strLength = s.length() * 6.0;
   PVector pos = new PVector(p.x, p.y + 20);//center it based on the text
-  /*if(p.x < 80){//offset to keep the entire tooltip in screen
-    pos.x += 50.0;
-  }else if(p.x > 620){
-    pos.x -= 50.0;
-  }*/
   
   fill(255);
   rect(pos.x , pos.y, strLength, 20);
@@ -448,6 +450,7 @@ void drawTooltip(PVector p, String s){
   text(""+s, pos.x+5, pos.y+15);
 }
 
+//draw the filter bars
 void drawBarFilters(boolean[] bools, float[][] locs){ 
   stroke(0, 0, 0, 110); 
   strokeWeight(3); 
@@ -462,6 +465,7 @@ void drawBarFilters(boolean[] bools, float[][] locs){
 
 //-------These methods have to do with mouse interaction------//
 
+//checks the mouse position and does effects based on that
 void mouseUpdate(){
   cursor(ARROW);
   //check is mouse clicked an airport
@@ -482,8 +486,8 @@ void mouseUpdate(){
         drawTooltip(drawPos, ""+a.getName());
       }
     }
-  } else if (mouseX>770 && mouseX<950){
-      if(mouseY>102 && mouseY<132){
+  } else if (mouseX>770 && mouseX<950){//within the filter box
+      if(mouseY>102 && mouseY<132){//within the airlines filter
         for(int i=0; i<airlineFiltersLocs.length; i++){
           PVector mouse = new PVector(mouseX, mouseY); 
           PVector aPos = airlineFiltersLocs[i]; 
@@ -506,7 +510,7 @@ void mouseUpdate(){
             break;
           }
         }
-      } else if (mouseY>155 && mouseY<173){
+      } else if (mouseY>155 && mouseY<173){//within wifi filter
           for(int i=0; i< wifiLocs.length; i++){
             float x = wifiLocs[i][0]; 
             float y = wifiLocs[i][1]; 
@@ -551,14 +555,12 @@ void mouseUpdate(){
                  }
                }
                
-               
                PVector[] drawPos = {new PVector(796, 116), new PVector(871, 116), new PVector(897, 116)}; 
                image(wifiTT[i], drawPos[i].x, drawPos[i].y); 
-               
                break;
             }
          } 
-     } else if (mouseY>195 && mouseY<218){
+     } else if (mouseY>195 && mouseY<218){//within hotels filter
          for(int i=0; i<hotelLocs.length; i++){
            float x = hotelLocs[i][0]; 
            float y = hotelLocs[i][1]; 
@@ -604,7 +606,7 @@ void mouseUpdate(){
               break;
             }
          }  
-     } else if (mouseY>240 && mouseY<261){
+     } else if (mouseY>240 && mouseY<261){//within kids filter
          for(int i=0; i<kidsLocs.length; i++){
            float x = kidsLocs[i][0]; 
            float y = kidsLocs[i][1]; 
@@ -648,7 +650,7 @@ void mouseUpdate(){
               break;
             }
          }  
-     } else if (mouseY>285 && mouseY<305){
+     } else if (mouseY>285 && mouseY<305){//within pets filter
          for(int i=0; i<petsLocs.length; i++){
            float x = petsLocs[i][0]; 
            float y = petsLocs[i][1]; 
@@ -693,7 +695,7 @@ void mouseUpdate(){
               break;
             }
          }  
-     } else if (mouseY>327 && mouseY<348){
+     } else if (mouseY>327 && mouseY<348){//within transportation filter
          for(int i=0; i<transLocs.length; i++){
            float x = transLocs[i][0]; 
            float y = transLocs[i][1]; 
@@ -741,6 +743,7 @@ void mouseUpdate(){
   } 
 }
 
+//when the mouse is pressed
 void mousePressed(){
   selectedAirport = null;//clear selected airport
   //check is mouse clicked an airport
@@ -760,13 +763,12 @@ void mousePressed(){
         } else{
            displayRank = -1; 
         }
-        
         break;
       }
 
     }
-  } else if (mouseX>770 && mouseX<950){
-      if(mouseY>102 && mouseY<132){
+  } else if (mouseX>770 && mouseX<950){//within filter box
+      if(mouseY>102 && mouseY<132){//within airline filters
          for(int i=0; i<airlineFiltersLocs.length; i++){
           PVector mouse = new PVector(mouseX, mouseY); 
           PVector aPos = airlineFiltersLocs[i]; 
@@ -778,7 +780,7 @@ void mousePressed(){
               break;
             }
           }
-      } else if (mouseY>155 && mouseY<173){
+      } else if (mouseY>155 && mouseY<173){//within wifi filter
           int temp = 0;
           
           for(int i=0; i< wifiLocs.length; i++){
@@ -799,7 +801,7 @@ void mousePressed(){
              wifiFilters[2] = false; 
              wifiFilters[temp] = true;
           } 
-       } else if (mouseY>195 && mouseY<218){
+       } else if (mouseY>195 && mouseY<218){//within hotel filter
            int temp = 0; 
            
            for(int i=0; i<hotelLocs.length; i++){
@@ -820,7 +822,7 @@ void mousePressed(){
              hotelFilters[1] = false; 
              hotelFilters[temp] = true; 
            } 
-       } else if (mouseY>240 && mouseY<261){
+       } else if (mouseY>240 && mouseY<261){//within kids filter
            int temp = 0; 
            
            for(int i=0; i<kidsLocs.length; i++){
@@ -841,7 +843,7 @@ void mousePressed(){
              kidsFilters[1] = false; 
              kidsFilters[temp] = true;
            }
-       } else if (mouseY>285 && mouseY<305){
+       } else if (mouseY>285 && mouseY<305){//within pets filter
            int temp = 0; 
          
            for(int i=0; i<petsLocs.length; i++){
@@ -862,7 +864,7 @@ void mousePressed(){
              petsFilters[1] = false; 
              petsFilters[temp] = true;
            }  
-       } else if (mouseY>327 && mouseY<348){
+       } else if (mouseY>327 && mouseY<348){//within transportation filter
            int temp = 0; 
            
            for(int i=0; i<transLocs.length; i++){
