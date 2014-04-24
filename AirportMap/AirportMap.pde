@@ -7,24 +7,24 @@ PImage[] AA, DL, SW, UN, US;
 PImage[] wifiIcons, hotelIcons, kidsIcons, petsIcons, transIcons; 
 
 boolean[] airlineFilters = {false, false, false, false, false}; 
-PVector[] airlineFiltersLocs = {new PVector(793, 118.4), new PVector(826.4, 118.4), new PVector(859.75, 118.4), new PVector(893, 118.4), new PVector(926.4, 118.4)}; 
+PVector[] airlineFiltersLocs = {new PVector(800.667, 115.167), new PVector(835, 115.167), new PVector(869.333, 115.167), new PVector(903.667, 115.167), new PVector(938, 115.167)}; 
 
 boolean[] wifiFilters = {false, false, false}; 
-float[][] wifiLocs = {{780.0, 156.34, 107.44, 18}, {887.44, 156.34, 31.6, 18}, {919.041, 156.34, 18.96, 18}};
+float[][] wifiLocs = {{784, 154.84, 115.6, 18.0}, {899.601, 154.84, 34.001, 18.0}, {933.602, 154.84, 20.398, 18.0}};
 
 boolean[] hotelFilters = {false, false}; 
-float[][] hotelLocs = {{780, 199, 63.2, 18.0}, {843.2, 199, 94.8, 18.0}}; 
+float[][] hotelLocs = {{784.0, 197.439, 67.5, 18.0}, {852.0, 197.439, 102.0, 18.0}}; 
 
 boolean[] kidsFilters = {false, false}; 
-float[][] kidsLocs = {{780, 243, 88.5, 18.0}, {868.48, 243, 69.5, 18.0}}; 
+float[][] kidsLocs = {{784.0, 241, 95, 18.0}, {879.199, 241.54, 74.801, 16.512, 18.0}}; 
 
 boolean[] petsFilters = {false, false}; 
-float[][] petsLocs = {{780, 286.14, 145.36, 18.0}, {925.36, 286.14, 12.639, 18.0}}; 
+float[][] petsLocs = {{784.0, 284, 156, 18.0}, {940.401, 284.64, 13.599, 18.0}}; 
 
 boolean[] transFilters = {false, false}; 
-float[][] transLocs = {{780, 329.24, 88.48, 18.0}, {868.48, 329.24, 69.521, 18.0}}; 
+float[][] transLocs = {{784.0, 327, 95, 18.0}, {879.199, 327.74, 74.801, 18.0}}; 
 
-int right_align = 770; //pixel placement to align the right side panel
+int right_align = 775; //pixel placement to align the right side panel
 int numOfAirports = 25;
 color[] colorList = {color(107, 122, 119), color(121,170,154), color(171, 198, 188), //colorList indices 0-2 wifi
                      color(217, 171, 111), color(250, 206, 158), //colorList indices  3-4 hotel
@@ -37,7 +37,7 @@ Airport selectedAirport = null;
 String csv = "airport.csv";
 
 void setup() {
-  size(1000, 560);  
+  size(1000, 650);  
 
   //load main
   titleBar = loadImage("images/title.png");
@@ -53,7 +53,7 @@ void setup() {
   } 
   
   //load filter icons into project
-  wifiIcons = new PImage[3]; 
+  wifiIcons = new PImage[6]; 
   hotelIcons = new PImage[2]; 
   kidsIcons = new PImage[2]; 
   petsIcons = new PImage[2]; 
@@ -92,12 +92,12 @@ void draw() {
   background(250, 247, 237);
   
   //draw main
-  image(titleBar, 23.7, 27.8);
+  image(titleBar, 0, 0);
   shape(usa, 26, 96, 717, 424);
   
   //draw filter panel
-  image(filters, right_align, 53, 180, 310); 
-  image(AA[0], 780, 103, 30, 30); 
+  image(filters, right_align, 50.5, 190, 310); 
+
   //drawButtons
   drawAirlineButtons(airlineFilters); 
   drawBarFilters(wifiFilters, wifiLocs); 
@@ -246,7 +246,7 @@ void processFilters(){
 //---------These methods draw stuff to the screen---------//
 void drawInfoPanel(Airport a){//draw the info
   if(displayRank >= 0){
-    image(infoBoxes[displayRank-1], right_align, 381.5, 180, 130);  
+    image(infoBoxes[displayRank-1], right_align, 379.5, 190, 225.973);  
    
     //draw icons in row one
     String aa = "" + a.getAa(); 
@@ -256,109 +256,116 @@ void drawInfoPanel(Airport a){//draw the info
     String us = "" + a.getUs(); 
     
     if(aa.equals("NO")){
-      image(AA[2], 776.998, 438.496, 30.5, 30.5); 
+      image(AA[2], 786.004, 456.155, 26, 26); 
     } else if(aa.equals("YES")){
-      image(AA[3], 776.998, 438.496, 30.5, 30.5); 
+      image(AA[3], 786.004, 456.155, 26, 26); 
     } else{
-      image(AA[4], 776.998, 438.496, 30.5, 30.5); 
+      image(AA[4], 786.004, 456.155, 26, 26); 
     }
     
     if(dl.equals("NO")){
-      image(DL[2], 809.998, 438.496, 30.5, 30.5); 
+      image(DL[2], 820.961, 456.155, 26, 26); 
     } else if(dl.equals("YES")){
-      image(DL[3], 809.998, 438.496, 30.5, 30.5); 
+      image(DL[3], 820.961, 456.155, 26, 26); 
     } else{
-      image(DL[4], 809.998, 438.496, 30.5, 30.5); 
+      image(DL[4], 820.961, 456.155, 26, 26); 
     }
     
     if(sw.equals("NO")){
-      image(SW[2], 842.998, 438.496, 30.5, 30.5); 
+      image(SW[2], 855.918, 456.155, 26, 26); 
     } else if(sw.equals("YES")){
-      image(SW[3], 842.998, 438.496, 30.5, 30.5); 
+      image(SW[3], 855.918, 456.155, 26, 26); 
     } else{
-      image(SW[4], 842.998, 438.496, 30.5, 30.5); 
+      image(SW[4], 855.918, 456.155, 26, 26); 
     }
     
     if(un.equals("NO")){
-      image(UN[2], 876.667, 438.496, 30.5, 30.5); 
+      image(UN[2], 890.875, 456.155, 26, 26); 
     } else if(un.equals("YES")){
-      image(UN[3], 876.667, 438.496, 30.5, 30.5); 
+      image(UN[3], 890.875, 456.155, 26, 26); 
     } else{
-      image(UN[4], 876.667, 438.496, 30.5, 30.5); 
+      image(UN[4], 890.875, 456.155, 26, 26); 
     }
     
     if(us.equals("NO")){
-      image(US[2], 910.498, 438.496, 30.5, 30.5); 
+      image(US[2], 925.832, 456.155, 26, 26); 
     } else if(us.equals("YES")){
-      image(US[3], 910.498, 438.496, 30.5, 30.5); 
+      image(US[3], 925.832, 456.155, 26, 26); 
     } else{
-      image(US[4], 910.498, 438.496, 30.5, 30.5); 
+      image(US[4], 925.832, 456.155, 26, 26); 
     }
-    
     //draw icons in row two
     if(a.getWifi().equals("f")){
-       image(wifiIcons[0], 779.334, 474.333, 25.667, 25.667); 
-    } else if(a.getWifi().equals("p")){
-       image(wifiIcons[1], 779.334, 474.333, 25.667, 25.667); 
+       image(wifiIcons[0], 781.552, 545.685, 36.088, 53.817); 
+    } else if(a.getWifi().equals("r")){
+       image(wifiIcons[2], 781.552, 545.685, 36.088, 53.817); 
     } else{
-       image(wifiIcons[2], 779.334, 474.333, 25.667, 25.667); 
+       image(wifiIcons[1], 781.552, 545.685, 36.088, 53.817); 
+       
+       if(displayRank==1){
+         image(wifiIcons[3], 781.552, 545.685, 36.088, 53.817); 
+       } else if(displayRank==2){
+         image(wifiIcons[4], 781.552, 545.685, 36.088, 53.817); 
+       } else{
+         image(wifiIcons[5], 781.552, 545.685, 36.088, 53.817);  
+       }
     }
     
     if(a.isHotel()){
-       image(hotelIcons[0], 812.751, 474.333, 25.667, 25.667);  
+       image(hotelIcons[0], 816.327, 545.685, 36.088, 53.817);  
     } else {
-      image(hotelIcons[1], 812.751, 474.333, 25.667, 25.667);  
+      image(hotelIcons[1], 816.327, 545.685, 36.088, 53.817);  
     }
     
     if(a.isKids()){
-       image(kidsIcons[0], 846.167, 474.333, 25.667, 25.667);  
+       image(kidsIcons[0], 851.826, 545.685, 36.088, 53.817);  
     } else{
-       image(kidsIcons[1], 846.167, 474.333, 25.667, 25.667);  
+       image(kidsIcons[1], 851.826, 545.685, 36.088, 53.817);  
     }
     
     if(a.isPet()){
-       image(petsIcons[0], 879.584, 474.333, 25.667, 25.667);  
+       image(petsIcons[0], 888.082, 545.685, 36.088, 53.817);  
     } else{
-       image(petsIcons[1], 879.584, 474.333, 25.667, 25.667);  
+       image(petsIcons[1], 888.082, 545.685, 36.088, 53.817);  
     }
     
     if(a.isTrans()){
-       image(transIcons[0], 913.001, 474.333, 25.667, 25.667);  
+       image(transIcons[0], 923.789, 545.685, 36.088, 53.817);  
     } else{
-       image(transIcons[1], 913.001, 474.333, 25.667, 25.667);  
+       image(transIcons[1], 923.789, 545.685, 36.088, 53.817);  
     }
   }
 }
 
 void drawAirlineButtons(boolean[] arr){
   if (!arr[0]){
-    image(AA[0], 780, 103, 30, 30);
+    image(AA[0], 784.588, 98.831, 31.523, 31.523);
   } else{
-    image(AA[1], 780, 103, 30, 30); 
+    image(AA[1], 784.588, 98.831, 31.523, 31.523); 
   }
   
   if (!arr[1]){
-    image(DL[0], 812.6, 103, 30, 30); 
+    image(DL[0], 818.918, 98.831, 31.523, 31.523); 
   } else { 
-    image(DL[1], 812.6, 103, 30, 30); 
+    image(DL[1], 818.918, 98.831, 31.523, 31.523); 
   }
   
   if (!arr[2]){
-    image(SW[0], 845, 103, 30, 30); 
+    image(SW[0], 853.278, 98.831, 31.523, 31.523); 
   } else { 
-    image(SW[1], 845, 103, 30, 30); 
+    image(SW[1], 853.278, 98.831, 31.523, 31.523); 
   }
   
   if (!arr[3]){
-    image(UN[0], 878.3, 103, 30, 30); 
+    image(UN[0], 887.638, 98.831, 31.523, 31.523); 
   } else { 
-    image(UN[1], 878.3, 103, 30, 30); 
+    image(UN[1], 887.638, 98.831, 31.523, 31.523); 
   }
   
   if (!arr[4]){
-    image(US[0], 911.67, 103, 30, 30); 
+    image(US[0], 921.998, 98.831, 31.523, 31.523); 
   } else { 
-    image(US[1], 911.67, 103, 30, 30); 
+    image(US[1], 921.998, 98.831, 31.523, 31.523); 
   }
 }
 
@@ -452,15 +459,15 @@ void mouseUpdate(){
   } else if (mouseX>770 && mouseX<950){
       if(mouseY>102 && mouseY<132){
         for(int i=0; i<airlineFiltersLocs.length; i++){
-        PVector mouse = new PVector(mouseX, mouseY); 
-        PVector aPos = airlineFiltersLocs[i]; 
+          PVector mouse = new PVector(mouseX, mouseY); 
+          PVector aPos = airlineFiltersLocs[i]; 
                   
           if(withinCircle(mouse, aPos, 15)){
             cursor(HAND); 
             noStroke();
             fill(255,255,255,100); 
             ellipseMode(CENTER); 
-            ellipse(aPos.x, aPos.y, 31, 31); 
+            ellipse(aPos.x, aPos.y, 32, 32); 
             //get msg
             PVector drawPos = new PVector(mouseX, mouseY);
             String[] msgs = {"American Airlines", "Delta Airlines", "Southwest Airlines", "United Airlines", "US Airways"};
@@ -642,13 +649,16 @@ void mousePressed(){
             }
           }
       } else if (mouseY>155 && mouseY<173){
+          int temp = 0;
+          
           for(int i=0; i< wifiLocs.length; i++){
             float x = wifiLocs[i][0]; 
             float y = wifiLocs[i][1]; 
             float w = wifiLocs[i][2]; 
             float h = wifiLocs[i][3]; 
                  
-            if(withinRectangle(x, y, w, h)){               
+            if(withinRectangle(x, y, w, h)){    
+               temp = i;            
                wifiFilters[i] = !wifiFilters[i]; 
                break;
             }
@@ -657,15 +667,19 @@ void mousePressed(){
              wifiFilters[0] = false; 
              wifiFilters[1] = false; 
              wifiFilters[2] = false; 
+             wifiFilters[temp] = true;
           } 
        } else if (mouseY>195 && mouseY<218){
+           int temp = 0; 
+           
            for(int i=0; i<hotelLocs.length; i++){
              float x = hotelLocs[i][0]; 
              float y = hotelLocs[i][1]; 
              float w = hotelLocs[i][2]; 
              float h = hotelLocs[i][3]; 
                  
-             if(withinRectangle(x, y, w, h)){               
+             if(withinRectangle(x, y, w, h)){      
+               temp = i;          
                hotelFilters[i] = !hotelFilters[i]; 
                break;
             }
@@ -674,15 +688,19 @@ void mousePressed(){
            if(hotelFilters[0] && hotelFilters[1]){
              hotelFilters[0] = false; 
              hotelFilters[1] = false; 
+             hotelFilters[temp] = true; 
            } 
        } else if (mouseY>240 && mouseY<261){
+           int temp = 0; 
+           
            for(int i=0; i<kidsLocs.length; i++){
              float x = kidsLocs[i][0]; 
              float y = kidsLocs[i][1]; 
              float w = kidsLocs[i][2]; 
              float h = kidsLocs[i][3]; 
                  
-             if(withinRectangle(x, y, w, h)){               
+             if(withinRectangle(x, y, w, h)){  
+               temp = i;              
                kidsFilters[i] = !kidsFilters[i]; 
                break;
              }
@@ -691,15 +709,19 @@ void mousePressed(){
            if(kidsFilters[0] && kidsFilters[1]){
              kidsFilters[0] = false; 
              kidsFilters[1] = false; 
+             kidsFilters[temp] = true;
            }
        } else if (mouseY>285 && mouseY<305){
+           int temp = 0; 
+         
            for(int i=0; i<petsLocs.length; i++){
              float x = petsLocs[i][0]; 
              float y = petsLocs[i][1]; 
              float w = petsLocs[i][2]; 
              float h = petsLocs[i][3]; 
                  
-             if(withinRectangle(x, y, w, h)){               
+             if(withinRectangle(x, y, w, h)){    
+               temp = i;            
                petsFilters[i] = !petsFilters[i]; 
                break;
              }
@@ -708,15 +730,19 @@ void mousePressed(){
            if(petsFilters[0] && petsFilters[1]){
              petsFilters[0] = false; 
              petsFilters[1] = false; 
+             petsFilters[temp] = true;
            }  
        } else if (mouseY>327 && mouseY<348){
+           int temp = 0; 
+           
            for(int i=0; i<transLocs.length; i++){
              float x = transLocs[i][0]; 
              float y = transLocs[i][1]; 
              float w = transLocs[i][2]; 
              float h = transLocs[i][3]; 
                  
-             if(withinRectangle(x, y, w, h)){               
+             if(withinRectangle(x, y, w, h)){     
+               temp = i;           
                transFilters[i] = !transFilters[i]; 
                break;
              }
@@ -725,6 +751,7 @@ void mousePressed(){
            if(transFilters[0] && transFilters[1]){
              transFilters[0] = false; 
              transFilters[1] = false; 
+             transFilters[temp] = true;
            }  
        }
   }
