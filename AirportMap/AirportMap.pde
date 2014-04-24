@@ -3,7 +3,7 @@ PShape usa;
 PImage[] infoBoxes;
 int displayRank = -1; 
 
-PImage[] AA, DL, SW, UN, US;
+PImage[] AA, DL, SW, UN, US, airlineTooltips;
 PImage[] wifiIcons, hotelIcons, kidsIcons, petsIcons, transIcons; 
 
 boolean[] airlineFilters = {false, false, false, false, false}; 
@@ -11,18 +11,23 @@ PVector[] airlineFiltersLocs = {new PVector(800.667, 115.167), new PVector(835, 
 
 boolean[] wifiFilters = {false, false, false}; 
 float[][] wifiLocs = {{784, 154.84, 115.6, 18.0}, {899, 154.84, 33.5, 18.0}, {932, 154.84, 20.398, 18.0}};
+PImage[] wifiTT;
 
 boolean[] hotelFilters = {false, false}; 
 float[][] hotelLocs = {{784.0, 197.439, 68, 18.0}, {851.5, 197.439, 102.0, 18.0}}; 
+PImage[] hotelTT; 
 
 boolean[] kidsFilters = {false, false}; 
 float[][] kidsLocs = {{784.0, 241, 95, 18.3}, {878.5, 241, 74.801, 16.512, 19}}; 
+PImage[] kidsTT; 
 
 boolean[] petsFilters = {false, false}; 
 float[][] petsLocs = {{784.0, 283, 156, 18.0}, {939, 283, 13.599, 18.0}}; 
+PImage[] petsTT; 
 
 boolean[] transFilters = {false, false}; 
 float[][] transLocs = {{784.0, 326, 95, 18.0}, {878.5, 326, 74.801, 18.0}}; 
+PImage[] transTT; 
 
 int right_align = 775; //pixel placement to align the right side panel
 int numOfAirports = 25;
@@ -84,6 +89,30 @@ void setup() {
     UN[i] = loadImage("images/UN/" + i + ".png");
     US[i] = loadImage("images/US/" + i + ".png"); 
   }
+  
+  wifiTT = new PImage[3];
+  hotelTT = new PImage[2];
+  kidsTT = new PImage[2];
+  petsTT = new PImage[2];
+  transTT = new PImage[2];
+  
+  for(int i=0; i<wifiTT.length; i++){
+     wifiTT[i] = loadImage("images/wifi/TT/" + i + ".png"); 
+     
+     if(i<2){
+        hotelTT[i] = loadImage("images/hotel/TT/" + i + ".png"); 
+        kidsTT[i] = loadImage("images/kids/TT/" + i + ".png"); 
+        petsTT[i] = loadImage("images/pets/TT/" + i + ".png"); 
+        transTT[i] = loadImage("images/transport/TT/" + i + ".png");  
+     }
+  }
+  
+  airlineTooltips = new PImage[5]; 
+  airlineTooltips[0] = loadImage("images/AA/5.png"); 
+  airlineTooltips[1] = loadImage("images/DL/5.png"); 
+  airlineTooltips[2] = loadImage("images/SW/5.png"); 
+  airlineTooltips[3] = loadImage("images/UN/5.png"); 
+  airlineTooltips[4] = loadImage("images/US/5.png"); 
   
   airports = new ArrayList<Airport>();
   loadData(csv);
@@ -467,10 +496,14 @@ void mouseUpdate(){
             ellipseMode(CENTER); 
             ellipse(aPos.x, aPos.y, 32, 32); 
             //get msg
-            PVector drawPos = new PVector(mouseX, mouseY);
-            String[] msgs = {"American Airlines", "Delta Airlines", "Southwest Airlines", "United Airlines", "US Airways"};
+            //PVector drawPos = new PVector(mouseX, mouseY);
+            //String[] msgs = {"American Airlines", "Delta Airlines", "Southwest Airlines", "United Airlines", "US Airways"};
               
-            drawTooltip(drawPos, msgs[i]);  
+            //drawTooltip(drawPos, msgs[i]);  
+            
+            PVector[] drawPos = {new PVector(773, 61), new PVector(807, 61), new PVector(841, 61), new PVector(875, 61), new PVector(910, 61)};
+            image(airlineTooltips[i], drawPos[i].x, drawPos[i].y);             
+            
               
             break;
           }
@@ -488,10 +521,13 @@ void mouseUpdate(){
                fill(255,255,255,100); 
                rect(x, y, w, h); 
                    
-               String[] msgs = {"Free wifi: 68%", "Paid Wifi, 20%", "Free Limited Access Wifi, 12%"}; 
-               PVector drawPos = new PVector(mouseX, mouseY); 
+               //String[] msgs = {"Free wifi: 68%", "Paid Wifi, 20%", "Free Limited Access Wifi, 12%"}; 
+               //PVector drawPos = new PVector(mouseX, mouseY); 
                    
-               drawTooltip(drawPos, msgs[i]); 
+               //drawTooltip(drawPos, msgs[i]); 
+               
+               PVector[] drawPos = {new PVector(796, 116), new PVector(871, 116), new PVector(897, 116)}; 
+               image(wifiTT[i], drawPos[i].x, drawPos[i].y); 
                
                break;
             }
@@ -509,10 +545,13 @@ void mouseUpdate(){
               fill(255,255,255,100); 
               rect(x, y, w, h); 
                    
-              String[] msgs = {"On-site Hotel Available, 40%", "No On-site Hotel, 60%"}; 
-              PVector drawPos = new PVector(mouseX, mouseY); 
+             // String[] msgs = {"On-site Hotel Available, 40%", "No On-site Hotel, 60%"}; 
+              //PVector drawPos = new PVector(mouseX, mouseY); 
                    
-              drawTooltip(drawPos, msgs[i]); 
+              //drawTooltip(drawPos, msgs[i]); 
+              
+              PVector[] drawPos = {new PVector(773, 159), new PVector(857, 159)}; 
+              image(hotelTT[i], drawPos[i].x, drawPos[i].y); 
                
               break;
             }
@@ -530,10 +569,13 @@ void mouseUpdate(){
               fill(255,255,255,100); 
               rect(x, y, w, h); 
                    
-              String[] msgs = {"Play areas available, 56%", "No Play areas, 44%"}; 
-              PVector drawPos = new PVector(mouseX, mouseY); 
+              //String[] msgs = {"Play areas available, 56%", "No Play areas, 44%"}; 
+              //PVector drawPos = new PVector(mouseX, mouseY); 
                    
-              drawTooltip(drawPos, msgs[i]); 
+              //drawTooltip(drawPos, msgs[i]); 
+              
+              PVector[] drawPos = {new PVector(786, 204), new PVector(869, 204)}; 
+              image(kidsTT[i], drawPos[i].x, drawPos[i].y); 
                
               break;
             }
@@ -551,10 +593,13 @@ void mouseUpdate(){
               fill(255,255,255,100); 
               rect(x, y, w, h); 
                    
-              String[] msgs = {"Pet areas available, 92%", "No pet friendly zones, 8%"}; 
-              PVector drawPos = new PVector(mouseX, mouseY); 
+              //String[] msgs = {"Pet areas available, 92%", "No pet friendly zones, 8%"}; 
+              //PVector drawPos = new PVector(mouseX, mouseY); 
                    
-              drawTooltip(drawPos, msgs[i]); 
+              //drawTooltip(drawPos, msgs[i]); 
+               
+              PVector[] drawPos = {new PVector(815, 246), new PVector(902, 246)}; 
+              image(petsTT[i], drawPos[i].x, drawPos[i].y);  
                
               break;
             }
@@ -572,41 +617,20 @@ void mouseUpdate(){
               fill(255,255,255,100); 
               rect(x, y, w, h); 
                    
-              String[] msgs = {"Public transport to city center available, 56%", "No Public Transport to City Center, 44%"}; 
-              PVector drawPos = new PVector(mouseX, mouseY); 
+              //String[] msgs = {"Public transport to city center available, 56%", "No Public Transport to City Center, 44%"}; 
+              //PVector drawPos = new PVector(mouseX, mouseY); 
                    
-              drawTooltip(drawPos, msgs[i]); 
+              //drawTooltip(drawPos, msgs[i]); 
+              
+              PVector[] drawPos = {new PVector(782, 287), new PVector(869, 287)}; 
+              image(transTT[i], drawPos[i].x, drawPos[i].y); 
                
               break;
             }
          }  
      }
       
-  } /*else if (mouseX>770 && mouseX<950 && mouseY>155 && mouseY<173){
-      for(int i=0; i< wifiLocs.length; i++){
-        float x = wifiLocs[i][0]; 
-        float y = wifiLocs[i][1]; 
-        float w = wifiLocs[i][2]; 
-        float h = wifiLocs[i][3]; 
-           
-        if(withinRectangle(x, y, w, h)){
-           cursor(HAND); 
-           noStroke(); 
-           fill(255,255,255,100); 
-           rect(x, y, w, h); 
-               
-           String[] msgs = {"Free wifi", "Paid Wifi", "Free Wifi with Restrictions"}; 
-           PVector drawPos = new PVector(mouseX, mouseY); 
-               
-           drawTooltip(drawPos, msgs[i]); 
-           
-           break;
-        }
-     } 
-  } */
-  
-  
-  
+  } 
 }
 
 void mousePressed(){
