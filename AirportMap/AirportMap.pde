@@ -480,7 +480,6 @@ void mouseUpdate(){
         ellipse(aPos.x, aPos.y, diameter, diameter); 
         
         drawTooltip(drawPos, ""+a.getName());
-        break;
       }
     }
   } else if (mouseX>770 && mouseX<950){
@@ -503,7 +502,6 @@ void mouseUpdate(){
             
             PVector[] drawPos = {new PVector(773, 61), new PVector(807, 61), new PVector(841, 61), new PVector(875, 61), new PVector(910, 61)};
             image(airlineTooltips[i], drawPos[i].x, drawPos[i].y);             
-            
               
             break;
           }
@@ -526,6 +524,34 @@ void mouseUpdate(){
                    
                //drawTooltip(drawPos, msgs[i]); 
                
+               for(Airport wifiA : airports){
+                 int diameter = getAirportSize(wifiA);
+                 ellipseMode(CENTER); 
+                 noFill();
+                 strokeWeight(3);
+                 stroke(colorList[i+0]);
+
+                 switch(i){
+                   case 0://free wifi
+                     if(wifiA.getWifi().equals("f")){
+                        ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                     }
+                     break;
+                   case 1://pay?
+                     if(wifiA.getWifi().contains("/")){
+                        ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                     }
+                     break;
+                   case 2://restricted wifi
+                     if(wifiA.getWifi().equals("r")){
+                        ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                     }
+                     break;
+                   
+                 }
+               }
+               
+               
                PVector[] drawPos = {new PVector(796, 116), new PVector(871, 116), new PVector(897, 116)}; 
                image(wifiTT[i], drawPos[i].x, drawPos[i].y); 
                
@@ -545,14 +571,36 @@ void mouseUpdate(){
               fill(255,255,255,100); 
               rect(x, y, w, h); 
                    
-             // String[] msgs = {"On-site Hotel Available, 40%", "No On-site Hotel, 60%"}; 
+              // String[] msgs = {"On-site Hotel Available, 40%", "No On-site Hotel, 60%"}; 
               //PVector drawPos = new PVector(mouseX, mouseY); 
                    
               //drawTooltip(drawPos, msgs[i]); 
               
+              for(Airport wifiA : airports){
+               int diameter = getAirportSize(wifiA);
+               ellipseMode(CENTER); 
+               noFill();
+               strokeWeight(3);
+               
+               stroke(colorList[i+3]);//offset color to appropriate section
+               switch(i){
+                 case 0://no hotel
+                   if(wifiA.isHotel()){
+                      ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                   }
+                   break;
+                 case 1://has hotels
+                   if(!wifiA.isHotel()){
+                      ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                   }
+                   break;
+               }
+             }
+              
               PVector[] drawPos = {new PVector(773, 159), new PVector(857, 159)}; 
               image(hotelTT[i], drawPos[i].x, drawPos[i].y); 
-               
+              
+             
               break;
             }
          }  
@@ -574,9 +622,29 @@ void mouseUpdate(){
                    
               //drawTooltip(drawPos, msgs[i]); 
               
+              for(Airport wifiA : airports){
+               int diameter = getAirportSize(wifiA);
+               ellipseMode(CENTER); 
+               noFill();
+               strokeWeight(3);
+               
+               stroke(colorList[i+5]);//offset color to appropriate section
+               switch(i){
+                 case 0://no 
+                   if(wifiA.isKids()){
+                      ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                   }
+                   break;
+                 case 1://has 
+                   if(!wifiA.isKids()){
+                      ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                   }
+                   break;
+               }
+              }
+              
               PVector[] drawPos = {new PVector(786, 204), new PVector(869, 204)}; 
               image(kidsTT[i], drawPos[i].x, drawPos[i].y); 
-               
               break;
             }
          }  
@@ -597,10 +665,31 @@ void mouseUpdate(){
               //PVector drawPos = new PVector(mouseX, mouseY); 
                    
               //drawTooltip(drawPos, msgs[i]); 
+              
+              for(Airport wifiA : airports){
+                 int diameter = getAirportSize(wifiA);
+                 ellipseMode(CENTER); 
+                 noFill();
+                 strokeWeight(3);
+                 
+                 stroke(colorList[i+7]);//offset color to appropriate section
+                 switch(i){
+                   case 0://no 
+                     if(wifiA.isPet()){
+                        ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                     }
+                     break;
+                   case 1://has 
+                     if(!wifiA.isPet()){
+                        ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                     }
+                     break;
+                 }
+               }
                
               PVector[] drawPos = {new PVector(815, 246), new PVector(902, 246)}; 
               image(petsTT[i], drawPos[i].x, drawPos[i].y);  
-               
+             
               break;
             }
          }  
@@ -622,14 +711,33 @@ void mouseUpdate(){
                    
               //drawTooltip(drawPos, msgs[i]); 
               
+              for(Airport wifiA : airports){
+                 int diameter = getAirportSize(wifiA);
+                 ellipseMode(CENTER); 
+                 noFill();
+                 strokeWeight(3);
+                 
+                 stroke(colorList[i+9]);//offset color to appropriate section
+                 switch(i){
+                   case 0://no 
+                     if(wifiA.isTrans()){
+                        ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                     }
+                     break;
+                   case 1://has 
+                     if(!wifiA.isTrans()){
+                        ellipse(wifiA.getX(), wifiA.getY(), diameter, diameter);
+                     }
+                     break;
+                 }
+               }
+              
               PVector[] drawPos = {new PVector(782, 287), new PVector(869, 287)}; 
               image(transTT[i], drawPos[i].x, drawPos[i].y); 
-               
               break;
             }
          }  
      }
-      
   } 
 }
 
