@@ -10,19 +10,19 @@ boolean[] airlineFilters = {false, false, false, false, false};
 PVector[] airlineFiltersLocs = {new PVector(800.667, 115.167), new PVector(835, 115.167), new PVector(869.333, 115.167), new PVector(903.667, 115.167), new PVector(938, 115.167)}; 
 
 boolean[] wifiFilters = {false, false, false}; 
-float[][] wifiLocs = {{784, 154.84, 115.6, 18.0}, {899.601, 154.84, 34.001, 18.0}, {933.602, 154.84, 20.398, 18.0}};
+float[][] wifiLocs = {{784, 154.84, 115.6, 18.0}, {899.601, 154.84, 33.5, 18.0}, {933.602, 154.84, 20.398, 18.0}};
 
 boolean[] hotelFilters = {false, false}; 
-float[][] hotelLocs = {{784.0, 197.439, 67.5, 18.0}, {852.0, 197.439, 102.0, 18.0}}; 
+float[][] hotelLocs = {{784.0, 197.439, 68, 18.0}, {852.0, 197.439, 102.0, 18.0}}; 
 
 boolean[] kidsFilters = {false, false}; 
-float[][] kidsLocs = {{784.0, 241, 95, 18.0}, {879.199, 241.54, 74.801, 16.512, 18.0}}; 
+float[][] kidsLocs = {{784.0, 241, 95, 18.0}, {879.199, 241, 74.801, 16.512, 18.0}}; 
 
 boolean[] petsFilters = {false, false}; 
-float[][] petsLocs = {{784.0, 284, 156, 18.0}, {940.401, 284.64, 13.599, 18.0}}; 
+float[][] petsLocs = {{784.0, 284, 156, 18.0}, {940.401, 284, 13.599, 18.0}}; 
 
 boolean[] transFilters = {false, false}; 
-float[][] transLocs = {{784.0, 327, 95, 18.0}, {879.199, 327.74, 74.801, 18.0}}; 
+float[][] transLocs = {{784.0, 327, 95, 18.0}, {879.199, 327, 74.801, 18.0}}; 
 
 int right_align = 775; //pixel placement to align the right side panel
 int numOfAirports = 25;
@@ -258,43 +258,43 @@ void drawInfoPanel(Airport a){//draw the info
     String us = "" + a.getUs(); 
     
     if(aa.equals("NO")){
-      image(AA[2], 786.004, 456.155, 26, 26); 
+      image(AA[2], 786.004, 454.155, 30, 30); 
     } else if(aa.equals("YES")){
-      image(AA[3], 786.004, 456.155, 26, 26); 
+      image(AA[3], 786.004, 454.155, 30, 30); 
     } else{
-      image(AA[4], 786.004, 456.155, 26, 26); 
+      image(AA[4], 786.004, 454.155, 30, 30); 
     }
     
     if(dl.equals("NO")){
-      image(DL[2], 820.961, 456.155, 26, 26); 
+      image(DL[2], 820.961, 454.155, 30, 30); 
     } else if(dl.equals("YES")){
-      image(DL[3], 820.961, 456.155, 26, 26); 
+      image(DL[3], 820.961, 454.155, 30, 30); 
     } else{
-      image(DL[4], 820.961, 456.155, 26, 26); 
+      image(DL[4], 820.961, 454.155, 30, 30); 
     }
     
     if(sw.equals("NO")){
-      image(SW[2], 855.918, 456.155, 26, 26); 
+      image(SW[2], 855.918, 4564.155, 30, 30); 
     } else if(sw.equals("YES")){
-      image(SW[3], 855.918, 456.155, 26, 26); 
+      image(SW[3], 855.918, 454.155, 30, 30); 
     } else{
-      image(SW[4], 855.918, 456.155, 26, 26); 
+      image(SW[4], 855.918, 454.155, 30, 30); 
     }
     
     if(un.equals("NO")){
-      image(UN[2], 890.875, 456.155, 26, 26); 
+      image(UN[2], 890.875, 454.155, 30, 30); 
     } else if(un.equals("YES")){
-      image(UN[3], 890.875, 456.155, 26, 26); 
+      image(UN[3], 890.875, 454.155, 30, 30); 
     } else{
-      image(UN[4], 890.875, 456.155, 26, 26); 
+      image(UN[4], 890.875, 454.155, 30, 30); 
     }
     
     if(us.equals("NO")){
-      image(US[2], 925.832, 456.155, 26, 26); 
+      image(US[2], 925.832, 454.155, 30, 30); 
     } else if(us.equals("YES")){
-      image(US[3], 925.832, 456.155, 26, 26); 
+      image(US[3], 925.832, 454.155, 30, 30); 
     } else{
-      image(US[4], 925.832, 456.155, 26, 26); 
+      image(US[4], 925.832, 454.155, 30, 30); 
     }
     //draw icons in row two
     if(a.getWifi().equals("f")){
@@ -436,7 +436,7 @@ void drawBarFilters(boolean[] bools, float[][] locs){
 
   for(int i=0; i<bools.length; i++){
      if(bools[i]){
-        rect(locs[i][0]+1, locs[i][1]+2, locs[i][2]-4, locs[i][3]-4); 
+        rect(locs[i][0]+2, locs[i][1]+2, locs[i][2]-4, locs[i][3]-5); 
      } 
   }
 }
