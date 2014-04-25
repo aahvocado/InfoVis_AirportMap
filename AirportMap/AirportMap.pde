@@ -1,8 +1,10 @@
+// All code is from scratch. There are no libraries or imported code in our project. 
 PImage titleBar, filters, intro;
 PShape usa;
 PImage[] infoBoxes;
 int displayRank = -1; 
 
+// Image location data and filter flag variables
 PImage[] AA, DL, SW, UN, US, airlineTooltips;
 PImage[] wifiIcons, hotelIcons, kidsIcons, petsIcons, transIcons; 
 
@@ -36,12 +38,16 @@ color[] colorList = {color(107, 122, 119), color(121,170,154), color(171, 198, 1
                      color(164, 100, 106), color(209, 179, 179), //colorList indices 5-6 kids
                      color(102, 92, 143), color(167, 152, 201), //colorList indices 7-8 pets
                      color(217, 200, 107), color(241, 223, 130)}; //colorList indices 9-10 transportation
+
+// Holds the imported data in an array of Airport objects
 ArrayList<Airport> airports;
 Airport selectedAirport = null;
 
+// Data file name
 String csv = "airport.csv";
 
 void setup() {
+  // Canvas size
   size(1000, 650);  
 
   //load main
@@ -65,6 +71,7 @@ void setup() {
   petsIcons = new PImage[2]; 
   transIcons = new PImage[2]; 
   
+  // Load filter icon images
   for (int i=0; i<wifiIcons.length; i++){
     wifiIcons[i] = loadImage("images/wifi/" + i + ".png"); 
     
@@ -82,6 +89,8 @@ void setup() {
   SW = new PImage[5]; 
   UN = new PImage[5]; 
   US = new PImage[5]; 
+  
+  // Load airline images into holding array
   for (int i=0; i<AA.length; i++) {
     AA[i] = loadImage("images/AA/" + i + ".png"); 
     DL[i] = loadImage("images/DL/" + i + ".png"); 
@@ -89,13 +98,15 @@ void setup() {
     UN[i] = loadImage("images/UN/" + i + ".png");
     US[i] = loadImage("images/US/" + i + ".png"); 
   }
-  
+
+  // Create new arrays for filter icon images  
   wifiTT = new PImage[3];
   hotelTT = new PImage[2];
   kidsTT = new PImage[2];
   petsTT = new PImage[2];
   transTT = new PImage[2];
   
+  // Load the filter icon image arrays
   for(int i=0; i<wifiTT.length; i++){
      wifiTT[i] = loadImage("images/wifi/TT/" + i + ".png"); 
      
@@ -107,6 +118,7 @@ void setup() {
      }
   }
   
+  // Load tooltip images
   airlineTooltips = new PImage[5]; 
   airlineTooltips[0] = loadImage("images/AA/5.png"); 
   airlineTooltips[1] = loadImage("images/DL/5.png"); 
@@ -114,22 +126,25 @@ void setup() {
   airlineTooltips[3] = loadImage("images/UN/5.png"); 
   airlineTooltips[4] = loadImage("images/US/5.png"); 
   
+  // Create the airport array
   airports = new ArrayList<Airport>();
+  // Import data
   loadData(csv);
  }
 
 void draw() {
+  // Set background color
   background(250, 247, 237);
   
-  //draw main
+  // Draw the title, map, and intro
   image(titleBar, 0, 0);
   shape(usa, 26, 96, 717, 424);
   image(intro, 0, 511); 
   
-  //draw filter panel
+  // Draw the filter panel
   image(filters, right_align, 50.5, 190, 310); 
 
-  //drawButtons
+  // Draw the filter buttons
   drawAirlineButtons(airlineFilters); 
   drawBarFilters(wifiFilters, wifiLocs); 
   drawBarFilters(hotelFilters, hotelLocs); 
@@ -137,6 +152,7 @@ void draw() {
   drawBarFilters(petsFilters, petsLocs);
   drawBarFilters(transFilters, transLocs); 
 
+  // Process the filters, draw the airport, and draw the info panel if needed
   strokeWeight(1);
   processFilters(); 
   drawAirports();
@@ -150,7 +166,7 @@ void draw() {
   stroke(204, 102, 0);
 }
 
-// Debugging method
+// Debugging method which prints all the filter flags' true/false values
 void printFlags(){
   print("Flags:\n\n");
   print("Airlines:\n");
@@ -169,7 +185,7 @@ void printFlags(){
   
 }
 
-// Debugging method
+// Debugging method which converts an array of true/false values into a string. 
 String arrayToString(boolean[] array){
   String text = "";
   for(boolean item:array){ 
@@ -178,14 +194,14 @@ String arrayToString(boolean[] array){
   return text+"\n";
 }
 
+// Process which filters are selected and mark which airports should be displayed accordingly
 void processFilters(){
   for(Airport airport:airports){
     boolean included = true;
-    //if(airlineFilters[0] == airlineFilters[1] && airlineFilters[1] == airlineFilters[2] && airlineFilters[2] == airlineFilters[3] && airlineFilters[3] == airlineFilters[4]){
+    
+    // Combines active filters and compares them to an airport's properties to output a true/false value indicating whether or not the airport meets the criteria
+    if(airlineFilters[0] == airlineFilters[1] && airlineFilters[1] == airlineFilters[2] && airlineFilters[2] == airlineFilters[3] && airlineFilters[3] == airlineFilters[4]){
 
-    //}
-    if(!airlineFilters[0] && !airlineFilters[1] && !airlineFilters[2] && !airlineFilters[3] && !airlineFilters[4]){
-        //if aa = dl and dl = sw and 
     }
     else{
       if(airlineFilters[0] == true && airport.getAa() == Airport.Presence.NO){
@@ -273,6 +289,7 @@ void processFilters(){
       
     }
     
+    // Indicates if the airport meets the filters criteria
     airport.setEnable(included);
   }
 }
@@ -403,15 +420,15 @@ void drawAirlineButtons(boolean[] arr){
   }
 }
 
-//draws all the airport dots
+// Draws all airports on the map with the color indicating if they meet the criteria or not
 void drawAirports(){
-  //if(selectedAirport != null) print("selected: "+selectedAirport.getName());
+  // For all airport objects
   for(int i = 0; i<airports.size();i++){
     Airport airport = airports.get(i);
+    
     int radius = getAirportSize(airport);
-//    int radius = Math.round(airport.getPas_2012()/45798809.0*24);
-//    text(airport.getName(),airport.getX()-5,airport.getY()-5);
-//    if enabled, fill(204, 102, 0); else grey out
+    
+    // Calculating the correct color for the airport's dot
     if(airport != selectedAirport){
       if(airport.enabled()){
         stroke(20, 20, 20); 
@@ -431,7 +448,7 @@ void drawAirports(){
   } 
 }
 
-//calculates size of airport to draw
+// Calculates size of an airport's dot on the map
 int getAirportSize(Airport a){
   int maxSize = 26;
   float maxLargest = 45798809.0;
@@ -887,14 +904,18 @@ void mousePressed(){
            }  
        }
   }
-    printFlags();
+  // Debug to show flag changes
+  // printFlags();
 }
 
 //------------These methods have to do with important things not pertaining to drawing or mouse interaction---------//
 
+// Loads data from the csv
 void loadData(String csv){
+  // Loads the csv on a per line basis
   String [] lines = loadStrings(csv);
   for(int i = 1; i<lines.length;i++){
+    // Creates and stores an airport object for each line
     airports.add(new Airport(lines[i]));
   }
 }
@@ -938,9 +959,3 @@ boolean withinRectangle(float x, float y, float w, float h){
     return false; 
   }
 }
-
-//temp method
-void refreshAirports(){
-  
-}
-

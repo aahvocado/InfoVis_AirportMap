@@ -1,4 +1,6 @@
+// This class represents an airport and contains all the data pertaining to it. 
 public class Airport {
+  // Data storage variables
    private String name,code,city,state,longi,lat,wifi;
    private boolean hotel,kids,pet,trans;
    public enum Presence {YES, HUB, NO};
@@ -7,8 +9,12 @@ public class Airport {
    private boolean enabled; //by default, all airports are enabled initially.
    private boolean isSelected;
   
+  // Constructor which takes a line of the csv as input.
   public  Airport(String dataString){
+    // Splits the line into individual pieces of data
       String[] data = dataString.split(",");
+      
+      // Assigns that data (with some mild processing) to the proper data storage variables 
       rank = Integer.parseInt(data[0]);
       name = data[1];
       code = data[2];
@@ -33,10 +39,13 @@ public class Airport {
       trans = Boolean.parseBoolean(data[21]);
       x = Integer.parseInt(data[22]);
       y = Integer.parseInt(data[23]);
+      
+      // Default drawing values
       enabled = true;
       isSelected = false;
      }
      
+  // Turns csv data into an enum type
   private Presence parsePresence(String presenceData){
     if(presenceData.contains("*")){
       return Presence.HUB;
@@ -49,6 +58,7 @@ public class Airport {
     }
   }
 
+  // These methods all get or set a single data variable 
   public String getName() {
     return name;
   }
