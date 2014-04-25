@@ -778,6 +778,7 @@ void mousePressed(){
         if(displayRank != a.getRank()){
            displayRank = a.getRank();  
         } else{
+           selectedAirport = null;
            displayRank = -1; 
         }
         break;
